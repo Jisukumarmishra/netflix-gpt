@@ -1,21 +1,46 @@
-import React, { useState } from 'react'
-import { getAuth, signOut } from 'firebase/auth';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { addUser, removeUser } from 'Utils/userSlice';
+import { auth } from 'Utils/fireBase';
 
 const Header = () => {
-  const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((store) => store.user);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleSignOut = () => {
     const auth = getAuth();
     signOut(auth).then(() => {
+      dispatch(removeUser());
       navigate("/");
     }).catch((error) => {
       // An error happened.
     });
   };
+
+  // this useEffect helps to naviagate on every where in poage we not need to right in seperate component
+  useEffect(()=>{ 
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const {uid, email, displayName} = user;
+      dispatch(
+      addUser({   
+      uid:uid, 
+      email:email, 
+      displayName:displayName
+      })
+    ); 
+      navigate("/browse");
+    } else {
+      // User is signed out
+      dispatch(removeUser());
+      navigate("/");
+    }
+  });
+}, []);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
