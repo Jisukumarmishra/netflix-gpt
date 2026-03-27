@@ -1,11 +1,17 @@
 import React, { useState ,  useRef } from 'react'
 import Header from './Header'
 import {checkValidData} from "../Utils/validate";
-import { createUserWithEmailAndPassword ,signInWithEmailAndPassword} from 'firebase/auth';
+import { createUserWithEmailAndPassword ,signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import {auth} from "../Utils/fireBase"; 
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from 'Utils/userSlice';
+
 
 const Login = () => {
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, seterrorMessage] = useState(null);
   
@@ -40,6 +46,22 @@ const Login = () => {
       .then((userCredential) => {
         // Signed up 
         const user = userCredential.user;
+        updateProfile(user, {
+          displayName: name.current.value,
+          photoURL: "https://example.com/jane-q-user/profile.jpg"
+        }).then(() => {
+
+           const {uid, email, displayName} = auth.currentUser; //  i am tring to fetch the uid,email, dispalyName from the updaed value of the url
+              dispatch(
+                addUser({uid:uid, email:email, displayName:displayName})
+              );
+          navigate("/browse");
+        }).catch((error) => {
+          // An error occurred
+          // ...
+        });
+        // console.log(user);
+        // navigate("/browse");
     // ...
     })
     .catch((error) => {
@@ -56,11 +78,13 @@ const Login = () => {
       // Signed in 
       const user = userCredential.user;
       console.log(user);
+      navigate("/browse");
     })
     .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log(errorCode +"-"+ errorMessage);
+    seterrorMessage(errorCode +"-"+ errorMessage);
+    navigate("/");
 
   });
 
@@ -73,7 +97,7 @@ const Login = () => {
   };
 
   return (
-    <div className='relative min-h-screen'><Header/>
+    <div className='relative min-h-screen'><Header showUserActions={false}/>
 
     <div className='absolute inset-0 -z-10'>
       <img  src = "https://assets.nflxext.com/ffe/siteui/vlv3/eb110559-67e9-40ec-8f1c-4a45b9f9c9bb/web/IN-en-20260309-TRIFECTA-perspective_6796824d-3538-42c9-95e0-baabc0fdbadf_large.jpg"
