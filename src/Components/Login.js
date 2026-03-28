@@ -5,6 +5,8 @@ import { createUserWithEmailAndPassword ,signInWithEmailAndPassword, updateProfi
 import {auth} from "../Utils/fireBase"; 
 import { useDispatch } from 'react-redux';
 import { addUser } from 'Utils/userSlice';
+import { USER_AVTAR } from 'Utils/constants';
+import { MAIN_PAGE } from 'Utils/constants';
 
 
 const Login = () => {
@@ -47,7 +49,7 @@ const Login = () => {
         const user = userCredential.user;
         updateProfile(user, {
           displayName: name.current.value,
-          photoURL: "https://example.com/jane-q-user/profile.jpg"
+          photoURL: USER_AVTAR 
         }).then(() => {
 
            const {uid, email, displayName} = auth.currentUser; //  i am tring to fetch the uid,email, dispalyName from the updaed value of the url
@@ -97,7 +99,7 @@ const Login = () => {
     <div className='relative min-h-screen'><Header showUserActions={false}/>
 
     <div className='absolute inset-0 -z-10'>
-      <img  src = "https://assets.nflxext.com/ffe/siteui/vlv3/eb110559-67e9-40ec-8f1c-4a45b9f9c9bb/web/IN-en-20260309-TRIFECTA-perspective_6796824d-3538-42c9-95e0-baabc0fdbadf_large.jpg"
+      <img  src = {MAIN_PAGE}
       alt = "text"
       className='h-full w-full object-cover'/>
     </div>
