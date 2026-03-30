@@ -3,3 +3,11 @@
  export const USER_AVTAR = "https://preview.redd.it/sgfxdosc4qo81.png?width=338&format=png&auto=webp&s=68081fe5673ff6ac567a531ae01a786ca80695f6";
 
  export const MAIN_PAGE = "https://assets.nflxext.com/ffe/siteui/vlv3/eb110559-67e9-40ec-8f1c-4a45b9f9c9bb/web/IN-en-20260309-TRIFECTA-perspective_6796824d-3538-42c9-95e0-baabc0fdbadf_large.jpg";
+
+ export const API_OPTIONS = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNzRkYzRkODExYmMzOGZmMzRhODk5NjAxZWJjNzQ0YyIsIm5iZiI6MTc3NDg5MjAzMi4zNDQsInN1YiI6IjY5Y2FiNDAwODc3MzNlNzNkYTgzOTdhNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1oUAfHwyXS2zL4EqatFV9bKhZN8rUsNuVzgpA-xeKdw'
+  }
+};

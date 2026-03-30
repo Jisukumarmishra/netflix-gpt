@@ -49,7 +49,7 @@ const Login = () => {
         const user = userCredential.user;
         updateProfile(user, {
           displayName: name.current.value,
-          photoURL: USER_AVTAR 
+          photoURL: USER_AVTAR // here no the currly braces becaus this is not a jsx
         }).then(() => {
 
            const {uid, email, displayName} = auth.currentUser; //  i am tring to fetch the uid,email, dispalyName from the updaed value of the url
